@@ -28,7 +28,7 @@ function create_empty_file {
 }
 
 function create_dm_crypt_luks_container {
-	cryptsetup --verbose --verify-passphrase --batch-mode luksFormat "$1"
+	cryptsetup --verbose --verify-passphrase --batch-mode luksFormat --type luks1 "$1"
 	#cryptsetup --verbose luksDump "$1"
 	#file "$1"
 }
@@ -74,7 +74,7 @@ for i in "$@"; do
 	case $i in
 		-f=*|--file=*)
 			file_container="${i#*=}"
-			eval file_container=$file_container
+			eval file_container="$file_container"
 			shift # past argument=value
 			;;
 		-s=*|--size=*)
@@ -91,7 +91,7 @@ for i in "$@"; do
 			;;
 		-l=*|--location=*)
 			mount_location="${i#*=}"
-			eval mount_location=$mount_location
+			eval mount_location="$mount_location"
 			shift # past argument=value
 			;;
 		--create)
